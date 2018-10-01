@@ -1,0 +1,158 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<style type="text/css">
+.table-content {
+	padding: 40px 20px;
+}
+.table-responsive {
+	margin-top: 20px;
+}
+#btns-add {
+    margin-bottom: 20px;
+}
+.btn-add {
+    border: 1px solid #f26726;
+    background-color: transparent;
+}
+.btn-add:hover {
+    background-color: #f26726;
+    color: #fff;
+    transition: .15s ease-in-out;
+}
+.remove {
+	margin-left: 10px;
+	color: red;
+}
+.remove:hover {
+	cursor: pointer;
+}
+th input {
+	border: none !important;
+	font-weight: bold;
+	background-color: transparent !important;
+}
+th .remove {
+	font-weight: normal;
+}
+#btn-guardar {
+	width: 100%;
+	padding: 20px;
+}
+#btn-guardar button {
+	float: right;
+}
+div#page-container {
+    width: 80%;
+    margin: 5vh auto;
+    background-color: #ededed;
+    -webkit-box-shadow: 6px 6px 25px 0px rgba(0,0,0,0.19);
+	-moz-box-shadow: 6px 6px 25px 0px rgba(0,0,0,0.19);
+	box-shadow: 6px 6px 25px 0px rgba(0,0,0,0.19);
+}
+.btn-primary {
+    background-color: #f26726;
+    border: none;
+}
+.btn-primary:hover,
+.btn-primary:active {
+	background-color: #dc5c1f !important;
+}
+</style>
+
+<div id="page-container">
+	<div class="table-content">
+			<button class="btn btn-add add-col">Agregar columna</button>
+			<button class="btn btn-add add-row">Agregar fila</button>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>
+							<span class="pull-left remove remove-col">
+								x
+							</span>
+							<input type="text" class="form-control pull-left" value="Nombre">
+						</th>
+						<th>
+							<span class="pull-left remove remove-col">
+								x
+							</span>
+							<input type="text" class="form-control pull-left" value="Apellido">
+						</th>
+						<th>
+							<span class="pull-left remove remove-col">
+								x
+							</span>
+							<input type="text" class="form-control pull-left" value="Tel&eacute;fono">
+						</th>
+						<th>
+							<span class="pull-left remove remove-col">
+								x
+							</span>
+							<input type="text" class="form-control pull-left" value="Correo">
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<span class="remove remove-row">x</span>
+						</td>
+						<td>
+							<input type="text" class="form-control">
+						</td>
+						<td>
+							<input type="text" class="form-control">
+						</td>
+						<td>
+							<input type="text" class="form-control">
+						</td>
+						<td>
+							<input type="text" class="form-control">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button type="button" class="btn btn-primary">Guardar</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('body').on('click', '.add-row', function() {
+		var tr = $(this).parents('.table-content').find('.table tbody tr:last');
+		if (tr.length > 0) {
+			var clone = tr.clone();
+			clone.find(':text').val('');
+			tr.after(clone);
+		} else {
+			var cols = $(this).closest('.table-content').find('th').length,
+			tr0 = $('<tr/>');
+			tr0.html('<td><span class="remove remove-row">x</span></td><td> <input type="text" class="form-control"></td>');
+		for (var i = 2; i < cols; i++) {
+			tr0.append('<td><input type="text" class="form-control"></td>')
+		}
+		$(this).closest('.table-content').find('.table tbody').append(tr0);
+		}
+	});
+
+	$('body').on('click', '.remove-row', function() {
+		$(this).parents('tr').remove();
+	});
+
+	$('body').on('click', '.add-col', function() {
+		$(this).parent().find('.table thead tr').append('<th><span class="pull-left remove remove-col">x</span><input type="text" class="form-control pull-left" value=""></th>');
+		$(this).parent().find('.table tbody tr').append('<td><input type="text" class="form-control"></td>');
+	});
+
+	$('body').on('click', '.remove-col', function(event) {
+		var ndx = $(this).parent().index() + 1;
+		$('th', event.delegateTarget).remove(':nth-child(' + ndx + ')');
+		$('td', event.delegateTarget).remove(':nth-child(' + ndx + ')');
+	});
+});
+</script>
